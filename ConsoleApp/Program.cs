@@ -22,24 +22,24 @@ namespace ConsoleAppKlantBestellingen
             DbProductManager pM = new DbProductManager(connectionString);
             DbBestellingManager bM = new DbBestellingManager(connectionString);
 
-            Klant k1 = kM.HaalOp(1);
+            //Klant k1 = kM.HaalOp(1);
 
             //Product p1 = pM.MaakNieuwProduct("Chaudfontaine", 0.99m);
             //Product p2 = pM.MaakNieuwProduct("Vittel", 2.3m);
             //Product p3 = pM.MaakNieuwProduct("Contrex", 1.8m);
 
-            Dictionary<Product, int> producten1 = new Dictionary<Product, int>();
-            foreach(var product in pM.HaalOp(x => x.Prijs < 2.0m)){
-                producten1.Add(product, 3);
-            }
+            //Dictionary<Product, int> producten1 = new Dictionary<Product, int>();
+            //foreach(var product in pM.HaalOp(x => x.Prijs < 2.0m)){
+            //    producten1.Add(product, 3);
+            //}
 
-            Bestelling b1 = bM.MaakNieuweBestelling(DateTime.Now, k1, producten1);
+            //Bestelling b1 = bM.MaakNieuweBestelling(DateTime.Now, k1, producten1);
 
-            bM.VoegToe(b1);
+            //bM.VoegToe(b1);
 
 
 
-            // MEMORY VERSION
+            //MEMORY VERSION
             //KlantManager kM = new KlantManager();
             //ProductManager pM = new ProductManager();
             //BestellingManager bM = new BestellingManager();

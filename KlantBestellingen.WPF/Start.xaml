@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:KlantBestellingen.WPF"
         xmlns:languages="clr-namespace:KlantBestellingen.WPF.Languages"
         mc:Ignorable="d"
-        Title="{x:Static languages:Translations.Welcome}" Height="200" Width="400">
+        Title="{x:Static languages:Translations.Welcome}" Height="250" Width="500">
     <Grid>
         <!-- GRID DEFINITIONS -->
         <Grid.RowDefinitions>

@@ -214,6 +214,33 @@ namespace KlantBestellingen.WPF.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the selected customer(s)?.
+        /// </summary>
+        public static string DeleteCustomer {
+            get {
+                return ResourceManager.GetString("DeleteCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the selected order(s)?.
+        /// </summary>
+        public static string DeleteOrder {
+            get {
+                return ResourceManager.GetString("DeleteOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the selected product(s)?.
+        /// </summary>
+        public static string DeleteProduct {
+            get {
+                return ResourceManager.GetString("DeleteProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dutch.
         /// </summary>
         public static string Dutch {
@@ -403,7 +430,7 @@ namespace KlantBestellingen.WPF.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Price:.
+        ///   Looks up a localized string similar to Price (€):.
         /// </summary>
         public static string PriceTag {
             get {

@@ -9,7 +9,7 @@ namespace KlantBestellingen.WPF
 {
     public static class Controller
     {
-        // DATABASE VERSION
+        // ADO.NET VERSION
         //string connectionString = ConfigurationManager.ConnectionStrings["HPEnvy"].ConnectionString;
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["HPZBook"].ConnectionString;
 

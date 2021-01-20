@@ -8,7 +8,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
-
 namespace BusinessLayer.Managers
 {
     public class DbBestellingManager : IDbManager<Bestelling>
@@ -97,9 +96,10 @@ namespace BusinessLayer.Managers
             {
                 throw new DbBestellingManagerException("DbBestellingManager: Id van bestelling moet groter zijn dan 0");
             }
-            Bestelling b = (Bestelling)HaalOp(x => x.BestellingId == id);
 
-            return b;
+            IReadOnlyList<Bestelling> b = HaalOp(x => x.BestellingId == id);
+
+            return b.FirstOrDefault();
         }
 
         public IReadOnlyList<Bestelling> HaalOp(Func<Bestelling, bool> predicate)

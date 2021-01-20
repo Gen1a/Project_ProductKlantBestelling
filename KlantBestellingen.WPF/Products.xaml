@@ -7,23 +7,42 @@
         xmlns:languages="clr-namespace:KlantBestellingen.WPF.Languages"
         mc:Ignorable="d"
         Title="{x:Static languages:Translations.Products}" Height="450" Width="800">
+    <Window.Resources>
+        <!-- DataGrid style -->
+        <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{DynamicResource ColumnHeaderStyle1}"/>
+        </Style>
+        <!-- DataGridColumnHeader style -->
+        <Style x:Key="ColumnHeaderStyle1" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="SlateGray"/>
+            <Setter Property="Foreground" Value="GhostWhite"/>
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="DemiBold" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="ToolTip" Value="{x:Static languages:Translations.ClickToSort}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <!-- GRID DEFINITIONS -->
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!-- FIRST ROW -->
-        <DataGrid x:Name="DgProducten" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" AutoGenerateColumns="False" 
+        <DataGrid x:Name="DgProducten" Style="{DynamicResource DataGridStyle1}"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" AutoGenerateColumns="False" 
                   CanUserAddRows="False" CanUserDeleteRows="False" AlternatingRowBackground="#FFB9BBFF" IsReadOnly="True" PreviewKeyDown="DgProducten_PreviewKeyDown">
             <DataGrid.Columns>
                 <!-- Get column header translation + bind Product properties to column -->
                 <DataGridTextColumn Header="{x:Static languages:Translations.Name}" Binding="{Binding Naam}" MinWidth="200"></DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static languages:Translations.Price}" Binding="{Binding Prijs}" MinWidth="200"></DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static languages:Translations.Price}" Binding="{Binding Prijs, StringFormat='{}{0:N} EUR', ConverterCulture=de-DE}" MinWidth="200"></DataGridTextColumn>
                 <DataGridTemplateColumn Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -36,7 +55,7 @@
         <!-- SECOND ROW -->
         <Grid Grid.Row="1" Grid.Column="0" Margin="5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -45,13 +64,14 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{x:Static languages:Translations.NewProductTag}" Grid.Row="0" Grid.Column="0" Margin="0,0,15,0" Background="Black" Foreground="#FFD4D4D4" Padding="5,0,5,0"></TextBlock>
-            <TextBlock Text="{x:Static languages:Translations.NameTag}" Grid.Row="0" Grid.Column="1" Margin="0,0,5,0"/>
-            <TextBox x:Name="TbProductNaam" Grid.Row="0" Grid.Column="2" MinWidth="150" Margin="0,0,10,0" KeyUp="Tb_KeyUp"/>
-            <TextBlock Text="{x:Static languages:Translations.PriceTag}" Grid.Row="0" Grid.Column="3" Margin="0,0,5,0"/>
-            <TextBox x:Name="TbProductPrijs" Grid.Row="0" Grid.Column="4" MinWidth="300" PreviewTextInput="AllowNumbers" KeyUp="Tb_KeyUp"/>
+            <TextBlock Text="{x:Static languages:Translations.NewProductTag}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="5,0,15,0" Background="#FF7D8995" Padding="5,5,5,5" FontWeight="Bold" Foreground="#FFE5EFFF"/>
+            <TextBlock Text="{x:Static languages:Translations.NameTag}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox x:Name="TbProductNaam" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"  MinWidth="150" Margin="0,0,10,0" KeyUp="Tb_KeyUp"/>
+            <TextBlock Text="{x:Static languages:Translations.PriceTag}" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox x:Name="TbProductPrijs" Grid.Row="0" Grid.Column="4" VerticalAlignment="Center"  MinWidth="300" PreviewTextInput="AllowNumbers" KeyUp="Tb_KeyUp"/>
         </Grid>
         <Button x:Name="BtnNieuwProduct" Grid.Row="1" Grid.Column="1" Margin="5" Content="{x:Static languages:Translations.Add}" HorizontalAlignment="Right" 
-                VerticalAlignment="Center" Width="100" Click="BtnNieuwProduct_Click" IsEnabled="False" Cursor="Hand"/>
+                VerticalAlignment="Center" Width="100" Click="BtnNieuwProduct_Click" IsEnabled="False" Cursor="Hand"
+                Background="#4c92f5" Foreground="Black" FontWeight="Bold" FontStyle="Normal" FontSize="16" MinWidth="100" MinHeight="35" Padding="5,5,5,5" UseLayoutRounding="False"/>
     </Grid>
 </Window>

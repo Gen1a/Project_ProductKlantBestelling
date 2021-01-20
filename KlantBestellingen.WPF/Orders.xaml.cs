@@ -80,7 +80,7 @@ namespace KlantBestellingen.WPF
             var grid = (DataGrid)sender;
             if (Key.Delete == e.Key)
             {
-                if (!(MessageBox.Show(Translations.DeleteConfirmation + "the selected order(s)?", Translations.Confirmation, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes))
+                if (!(MessageBox.Show(Translations.DeleteOrder + "?", Translations.Confirmation, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes))
                 {
                     // Cancel delete and return
                     e.Handled = true;
@@ -106,7 +106,7 @@ namespace KlantBestellingen.WPF
             Bestelling b = (Bestelling)DgBestellingen.SelectedItem;
 
             // Ask confirmation for deleting a Product
-            if (!(MessageBox.Show($"{Translations.DeleteConfirmation}{Translations.Order} (ID: {b.BestellingId})?", Translations.Confirmation, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes))
+            if (!(MessageBox.Show($"{Translations.DeleteOrder}?", Translations.Confirmation, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes))
             {
                 // Cancel delete and return
                 e.Handled = true;
@@ -133,6 +133,12 @@ namespace KlantBestellingen.WPF
                 MainWindow.OrderDetail.Show();
                 MainWindow.OrderDetail.MainWindow = MainWindow;
             }
+        }
+
+        public void RefreshBestellingen()
+        {
+            _bestellingen = new ObservableCollection<Bestelling>(Controller.BestellingManager.HaalOp());
+            DgBestellingen.ItemsSource = _bestellingen;
         }
     }
 }

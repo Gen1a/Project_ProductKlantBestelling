@@ -1,26 +1,14 @@
-﻿using BusinessLayer.Models;
-using BusinessLayer.Managers;
-using System.Configuration;
+﻿using BusinessLayer.Managers;
+using BusinessLayer.Models;
 using KlantBestellingen.WPF.Languages;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Globalization;
-using System.ComponentModel;
-using System.Threading;
-using System.Windows.Markup;
 
 namespace KlantBestellingen.WPF
 {
@@ -49,6 +37,8 @@ namespace KlantBestellingen.WPF
             _orderDetailWindow.Closing += _Window_Closing;
             _ordersWindow.Closing += _Window_Closing;
             // Hide statusbar information
+            _orderDetailWindow.Orders = _ordersWindow;
+            _productsWindow.OrderDetailWindow = _orderDetailWindow;
             SetStatusbarVisibility(true);
             DisableButton(BtnNewOrder);
         }
@@ -206,6 +196,7 @@ namespace KlantBestellingen.WPF
             {
                 _orderDetailWindow.Klant = (Klant)cbKlanten.SelectedItem;
                 _orderDetailWindow.Bestelling = null;
+                _orderDetailWindow.MainWindow = this;
                 _orderDetailWindow.Show();
             }
         }

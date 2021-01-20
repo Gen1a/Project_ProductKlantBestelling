@@ -168,6 +168,15 @@
   <data name="DeleteConfirmation" xml:space="preserve">
     <value>Are you sure you want to delete </value>
   </data>
+  <data name="DeleteCustomer" xml:space="preserve">
+    <value>Are you sure you want to delete the selected customer(s)?</value>
+  </data>
+  <data name="DeleteOrder" xml:space="preserve">
+    <value>Are you sure you want to delete the selected order(s)?</value>
+  </data>
+  <data name="DeleteProduct" xml:space="preserve">
+    <value>Are you sure you want to delete the selected product(s)?</value>
+  </data>
   <data name="Dutch" xml:space="preserve">
     <value>Dutch</value>
   </data>
@@ -232,7 +241,7 @@
     <value>Price</value>
   </data>
   <data name="PriceTag" xml:space="preserve">
-    <value>Price:</value>
+    <value>Price (€):</value>
   </data>
   <data name="Products" xml:space="preserve">
     <value>Products</value>

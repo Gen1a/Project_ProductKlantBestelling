@@ -40,6 +40,18 @@ namespace KlantBestellingen.WPF
             }
         }
 
+        private Orders _ordersWindow;
+        public Orders Orders
+        {
+            get => _ordersWindow;
+            set
+            {
+                if (_ordersWindow == value)
+                    return;
+                _ordersWindow = value;
+            }
+        }
+
         // Current customer for the order
         private Klant _klant;
         public Klant Klant
@@ -114,7 +126,8 @@ namespace KlantBestellingen.WPF
             get => _bestelling;
             set
             {
-                if (_bestelling == value)
+                // if _bestelling for OrderDetailWindow is the same AND _bestelling isn't null (= first time window is opened)
+                if (_bestelling == value && _bestelling != null)
                 {
                     return;
                 }
@@ -123,7 +136,8 @@ namespace KlantBestellingen.WPF
                     // Reset the order values of the orderdetail window
                     _bestellingProducten = new ObservableCollection<Product>();
                     DgProducts.ItemsSource = _bestellingProducten;  // possible via .Clear() ?
-                    _bestelling.BestellingId = 0;
+                    //_bestelling.BestellingId = 0;
+                    _bestelling = null;
                     CbPrijs.IsChecked = false;
                     CbProducts.SelectedIndex = 0;
                     // We zeggen tegen XAML WPF: pas je aan aan nieuwe data
@@ -181,7 +195,7 @@ namespace KlantBestellingen.WPF
             bool needsUpdate = false;
             int totaalProducten = 0;
             // Check if bestelling already exists
-            if (_bestelling.BestellingId != 0)
+            if (Bestelling != null && Bestelling.BestellingId != 0)
             {
                 needsUpdate = true;
             }
@@ -228,8 +242,9 @@ namespace KlantBestellingen.WPF
                 MessageBox.Show(Translations.SaveOrder, Translations.Confirmation, MessageBoxButton.OK);
 
             // Refresh Datagrid and Progressbar
-            _mainWindow.Refresh();
-            _mainWindow.PbAantalProducten.Value = totaalProducten;
+            MainWindow.Refresh();
+            MainWindow.PbAantalProducten.Value = totaalProducten;
+            Orders.RefreshBestellingen();
         }
         
 
@@ -252,6 +267,12 @@ namespace KlantBestellingen.WPF
                     _bestellingProducten.Remove(row as Product);
                 }
             }
+        }
+
+        public void RefreshProducts()
+        {
+            _producten = new ObservableCollection<Product>(Controller.ProductManager.HaalOp());
+            CbProducts.ItemsSource = _producten;
         }
     }
 }

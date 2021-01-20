@@ -79,69 +79,17 @@ namespace BusinessLayer.Managers
                 throw new DbKlantManagerException("DbKlantManager: Id van klant moet groter zijn dan 0");
             }
 
-            SqlConnection connection = GetConnection();
-            string query = "SELECT * FROM Klant WHERE Id=@id";
+            IReadOnlyList<Klant> k = HaalOp(x => x.KlantId == id);
 
-            using (SqlCommand command = connection.CreateCommand())
-            {
-                command.CommandText = query;
-                command.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
-                command.Parameters["@id"].Value = id;
-                connection.Open();
-
-                try
-                {
-                    SqlDataReader reader = command.ExecuteReader();
-                    reader.Read();
-                    Klant klant = KlantFactory.MaakNieuweKlant((string)reader["Naam"], (string)reader["Adres"], (long)reader["Id"]);
-                    reader.Close();
-                    return klant;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error: ${e.Message}");
-                    throw new DbKlantManagerException("DbKlantManager: Fout bij ophalen van klant uit database");
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
+            return k.FirstOrDefault();
         }
 
         public IReadOnlyList<Klant> HaalOp(Func<Klant, bool> predicate)
         {
-            // Note: Performanter om te implementeren via LINQ to Entities of LINQ to SQL
-            SqlConnection connection = GetConnection();
-            string query = "SELECT * FROM Klant";
+            IReadOnlyList<Klant> klanten = HaalOp();
+            var selection = klanten.Where(predicate).ToList();
 
-            using (SqlCommand command = connection.CreateCommand())
-            {
-                command.CommandText = query;
-                connection.Open();
-
-                try
-                {
-                    SqlDataReader reader = command.ExecuteReader();
-                    List<Klant> klanten = new List<Klant>();
-                    while (reader.Read())
-                    {
-                        klanten.Add(KlantFactory.MaakNieuweKlant((string)reader["Naam"], (string)reader["Adres"], (long)reader["Id"]));
-                    }
-                    reader.Close();
-                    var selection = klanten.Where<Klant>(predicate).ToList();
-                    return selection;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error: ${e.Message}");
-                    throw new DbKlantManagerException("DbKlantManager: Fout bij ophalen van klant(en) uit database");
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
+            return selection;
         }
 
 

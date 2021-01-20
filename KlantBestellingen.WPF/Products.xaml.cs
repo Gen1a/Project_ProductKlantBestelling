@@ -28,6 +28,18 @@ namespace KlantBestellingen.WPF
             _producten.CollectionChanged += _producten_CollectionChanged;
         }
 
+        private OrderDetail _orderDetailWindow;
+        public OrderDetail OrderDetailWindow
+        {
+            get => _orderDetailWindow;
+            set
+            {
+                if (_orderDetailWindow == value)
+                    return;
+                _orderDetailWindow = value;
+            }
+        }
+
         /// <summary>
         /// Notify BusinessLayer that a record has been deleted from the ObservableCollection.
         /// </summary>
@@ -49,6 +61,7 @@ namespace KlantBestellingen.WPF
                     product.ProductId = Controller.ProductManager.VoegToeEnGeefId(product);
                 }
             }
+            OrderDetailWindow.RefreshProducts();
         }
 
         /// <summary>
@@ -61,7 +74,7 @@ namespace KlantBestellingen.WPF
             var grid = (DataGrid)sender;
             if (Key.Delete == e.Key)
             {
-                if (!(MessageBox.Show(Translations.DeleteConfirmation + "the selected product(s)?", Translations.Confirmation, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes))
+                if (!(MessageBox.Show(Translations.DeleteProduct + "?", Translations.Confirmation, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes))
                 {
                     // Cancel delete and return
                     e.Handled = true;
@@ -117,7 +130,7 @@ namespace KlantBestellingen.WPF
 
         private void AllowNumbers(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9.-]+");
+            Regex regex = new Regex("[^0-9,.-]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
@@ -132,7 +145,7 @@ namespace KlantBestellingen.WPF
             string productNaam = p.Naam;
 
             // Ask confirmation for deleting a Product
-            if (!(MessageBox.Show($"{Translations.DeleteConfirmation}'{productNaam}'?", Translations.Confirmation, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes))
+            if (!(MessageBox.Show($"{Translations.DeleteProduct}?", Translations.Confirmation, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes))
             {
                 // Cancel delete and return
                 e.Handled = true;

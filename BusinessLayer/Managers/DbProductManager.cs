@@ -78,70 +78,17 @@ namespace BusinessLayer.Managers
             {
                 throw new DbProductManagerException("DbProductManager: Id van product moet groter zijn dan 0");
             }
+            IReadOnlyList<Product> p = HaalOp(x => x.ProductId == id);
 
-            SqlConnection connection = GetConnection();
-            string query = "SELECT * FROM Product WHERE Id=@id";
-
-            using (SqlCommand command = connection.CreateCommand())
-            {
-                command.CommandText = query;
-                command.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
-                command.Parameters["@id"].Value = id;
-                connection.Open();
-
-                try
-                {
-                    SqlDataReader reader = command.ExecuteReader();
-                    reader.Read();
-                    Product product = ProductFactory.MaakNieuwProduct((string)reader["Naam"], (decimal)reader["Prijs"], (long)reader["Id"]);
-                    reader.Close();
-                    return product;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error: ${e.Message}");
-                    throw new DbProductManagerException("DbProductManager: Fout bij ophalen van product uit database");
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
+            return p.FirstOrDefault();
         }
 
         public IReadOnlyList<Product> HaalOp(Func<Product, bool> predicate)
         {
-            // Note: Performanter om te implementeren via LINQ to Entities of LINQ to SQL
-            SqlConnection connection = GetConnection();
-            string query = "SELECT * FROM Product";
+            IReadOnlyList<Product> producten = HaalOp();
+            var selection = producten.Where(predicate).ToList();
 
-            using (SqlCommand command = connection.CreateCommand())
-            {
-                command.CommandText = query;
-                connection.Open();
-
-                try
-                {
-                    SqlDataReader reader = command.ExecuteReader();
-                    List<Product> producten = new List<Product>();
-                    while (reader.Read())
-                    {
-                        producten.Add(ProductFactory.MaakNieuwProduct((string)reader["Naam"], (decimal)reader["Prijs"], (long)reader["Id"]));
-                    }
-                    reader.Close();
-                    var selection = producten.Where<Product>(predicate).ToList();
-                    return selection;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error: ${e.Message}");
-                    throw new DbProductManagerException("DbProductManager: Fout bij ophalen van product(en) uit database");
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
+            return selection;
         }
 
 

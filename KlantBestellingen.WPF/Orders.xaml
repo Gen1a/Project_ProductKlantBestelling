@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KlantBestellingen.WPF"
         xmlns:languages="clr-namespace:KlantBestellingen.WPF.Languages"
+        xmlns:converters="clr-namespace:KlantBestellingen.WPF.ValueConverters"
         mc:Ignorable="d"
         Title="{x:Static languages:Translations.Orders}" Height="450" Width="800">
+    <Window.Resources>
+        <converters:PaidConverter x:Key="PaidConverter"></converters:PaidConverter>
+        <!-- DataGrid style -->
+        <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{DynamicResource ColumnHeaderStyle1}"/>
+        </Style>
+        <!-- DataGridColumnHeader style -->
+        <Style x:Key="ColumnHeaderStyle1" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="SlateGray"/>
+            <Setter Property="Foreground" Value="GhostWhite"/>
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="DemiBold" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="ToolTip" Value="{x:Static languages:Translations.ClickToSort}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <!-- GRID DEFINITIONS -->
         <Grid.RowDefinitions>
@@ -22,15 +43,15 @@
             <ColumnDefinition MaxWidth="150"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!-- FIRST ROW -->
-        <DataGrid x:Name="DgBestellingen" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Margin="5" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
-                   AlternatingRowBackground="#FFB9BBFF" IsReadOnly="True" PreviewKeyDown="DgBestellingen_PreviewKeyDown" MouseDoubleClick="Row_Bestelling_DoubleClick">
+        <DataGrid x:Name="DgBestellingen" Style="{DynamicResource DataGridStyle1}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Margin="5" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                   AlternatingRowBackground="#FF9FBEF5" IsReadOnly="True" PreviewKeyDown="DgBestellingen_PreviewKeyDown" MouseDoubleClick="Row_Bestelling_DoubleClick">
             <DataGrid.Columns>
                 <!-- Get column header translation + bind Bestelling properties to column -->
-                <DataGridTextColumn Header="{x:Static languages:Translations.OrderId}" Binding="{Binding BestellingId}" MaxWidth="150"></DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static languages:Translations.Time}" Binding="{Binding Datum}" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static languages:Translations.OrderId}" Binding="{Binding BestellingId}" MinWidth="120"></DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static languages:Translations.Time}" Binding="{Binding Datum, StringFormat={}{0:HH:mm:ss - dd/MM/yyyy}}" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Header="{x:Static languages:Translations.CustomerName}" Binding="{Binding Path=Klant.Naam}" MinWidth="150" MaxWidth="200"></DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static languages:Translations.Price}" Binding="{Binding PrijsBetaald}" MinWidth="100" MaxWidth="150"></DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static languages:Translations.Paid}" Binding="{Binding Betaald}" MinWidth="50" MaxWidth="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static languages:Translations.Price}" Binding="{Binding PrijsBetaald, StringFormat='{}{0:N} EUR', ConverterCulture=de-DE}" MinWidth="100" MaxWidth="150"></DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static languages:Translations.Paid}" Binding="{Binding Betaald, Converter={StaticResource PaidConverter}}" MinWidth="50" MaxWidth="100"></DataGridTextColumn>
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

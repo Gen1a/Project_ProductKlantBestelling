@@ -165,8 +165,11 @@
   <data name="Delete" xml:space="preserve">
     <value>Verwijder</value>
   </data>
-  <data name="DeleteClient" xml:space="preserve">
-    <value>Ben je zeker dat je </value>
+  <data name="DeleteCustomer" xml:space="preserve">
+    <value>Ben je zeker dat je de geselecteerde klanten(en) wenst te verwijderen</value>
+  </data>
+  <data name="DeleteOrder" xml:space="preserve">
+    <value>Ben je zeker dat je de geselecteerde bestelling(en) wenst te verwijderen</value>
   </data>
   <data name="DeleteProduct" xml:space="preserve">
     <value>Ben je zeker dat je de geselecteerde product(en) wenst te verwijderen</value>
@@ -235,7 +238,7 @@
     <value>Prijs</value>
   </data>
   <data name="PriceTag" xml:space="preserve">
-    <value>Prijs:</value>
+    <value>Prijs (€):</value>
   </data>
   <data name="Products" xml:space="preserve">
     <value>Producten</value>
